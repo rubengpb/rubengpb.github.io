@@ -1,0 +1,29 @@
+:root {
+    --bg: #1a1b26;      /* Tokyo Night wall */
+    --fg: #a9b1d6;      /* grey text */
+    --accent: #7aa2f7;  /* blue links */
+    --comment: #565f89; /* grey comments */
+}
+
+body {
+    background-color: var(--bg);
+    color: var(--fg);
+    font-family: 'Courier New', Courier, monospace;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; color: #bb9af7; }
+
+h1, h2 { color: #f7768e; } /* headers red */
+
+.cursor { animation: blink 1s infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+
+pre { background: #24283b; padding: 15px; border-radius: 5px; overflow-x: auto; }
+code { color: #9ece6a; } /* green code */
+
+.nav { margin-bottom: 50px; border-bottom: 1px solid var(--comment); padding-bottom: 10px; }
