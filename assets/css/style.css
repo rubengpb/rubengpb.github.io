@@ -27,3 +27,48 @@ pre { background: #24283b; padding: 15px; border-radius: 5px; overflow-x: auto; 
 code { color: #9ece6a; } /* green code */
 
 .nav { margin-bottom: 50px; border-bottom: 1px solid var(--comment); padding-bottom: 10px; }
+
+/* --- REPL terminal --- */
+#terminal {
+    margin-top: 40px;
+}
+
+#terminal div {
+    line-height: 1.5;
+}
+
+.cursor {
+    display: inline-block;
+    width: 8px;
+    background-color: var(--fg);
+    animation: blink 1s infinite;
+    margin-left: 2px;
+}
+
+.line {
+    white-space: pre-wrap;
+}
+
+.input-line {
+    display: flex;
+    align-items: center;
+}
+
+.prompt {
+    margin-right: 8px;
+    color: var(--accent);
+}
+
+input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--fg);
+    font-family: inherit;
+    font-size: 1em;
+    width: 100%;
+}
+
+#output .line {
+    margin-bottom: 4px;
+}
