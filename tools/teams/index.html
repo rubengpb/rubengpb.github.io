@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Team Balancer — rubengpb</title>
+  <link rel="stylesheet" href="../../assets/css/style.css" />
+</head>
+<body>
+  <nav class="nav" aria-label="Primary">
+    <span class="nav__brand"><span>λ</span> rubengpb</span>
+    <span class="nav__sep">|</span>
+    <ul class="nav__links">
+      <li><a href="../../index.html">:whoami</a></li>
+      <li><a href="../../projects/">:projects</a></li>
+      <li><a href="../../writings/">:writings</a></li>
+      <li><a href="../" aria-current="page">:tools</a></li>
+    </ul>
+  </nav>
+  <div class="breadcrumb"><a href="../../index.html">~/</a> / <a href="../">tools</a> / teams &nbsp;·&nbsp; <code>crear_equipos.sh</code></div>
+
+  <main>
+    <h1># Team Balancer <span class="muted" style="font-weight:400; font-size:0.55em;">level-balanced</span></h1>
+    <p class="small muted">Port of <code>crear_equipos.sh</code>. Paste <code>Name level</code> per line (level numeric, 1 = strongest if you follow sorted order). Groups by level, shuffles per level, greedyassigns to weakest sum.</p>
+
+    <div class="grid-2">
+      <div class="card">
+        <label for="ta" class="small" style="font-weight:700;">Players</label>
+        <textarea id="ta" class="tool-input" rows="10">manolo 1
+pepe 1
+paco 2
+antonio 2
+joselito 3
+fernan 3</textarea>
+        <label for="num" class="small" style="font-weight:700; margin-top:10px; display:block;">Number of teams</label>
+        <input id="num" class="tool-input" type="number" min="1" value="2" style="margin-top:6px;" />
+        <div class="tool-controls">
+          <button id="gen" class="btn btn--primary">Generate</button>
+          <button id="reroll" class="btn">↻ Reroll</button>
+        </div>
+        <p id="err" class="small text-red" style="display:none;"></p>
+      </div>
+      <div class="card">
+        <h3 style="margin-top:0;">Output</h3>
+        <div id="out" class="small" style="white-space:pre-wrap;"></div>
+        <button id="copy" class="btn" style="margin-top:10px; display:none;">⎘ Copy</button>
+      </div>
+    </div>
+    <div class="callout" style="margin-top:14px;">Mirrors shell: <code>sort -n levels → shuf per level → assign to min suma_niveles</code>.</div>
+  </main>
+  <footer class="footer"><span class="footer__mode">NORMAL</span><span class="footer__branch"> main</span><span class="footer__file">~/tools/teams/index.html</span><span class="footer__pos">1:1</span></footer>
+
+<script>
+const ta=document.getElementById('ta');
+const numEl=document.getElementById('num');
+const out=document.getElementById('out');
+const err=document.getElementById('err');
+const copyBtn=document.getElementById('copy');
+function shuffle(a){ const b=a.slice(); for(let i=b.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [b[i],b[j]]=[b[j],b[i]] } return b; }
+function generate(){
+  err.style.display='none';
+  const lines=ta.value.split('\n').map(l=>l.trim()).filter(Boolean);
+  if(!lines.length){ err.textContent='❌ Empty player list'; err.style.display='block'; return; }
+  const nTeams=parseInt(numEl.value,10);
+  if(!nTeams||nTeams<=0){ err.textContent='❌ Invalid number of teams'; err.style.display='block'; return; }
+  if(nTeams>lines.length){ err.textContent=`❌ Fewer players (${lines.length}) than teams`; err.style.display='block'; return; }
+  const players=lines.map(l=>{
+    const [name, lvlStr]=l.split(/\s+/);
+    const lvl=parseInt(lvlStr,10);
+    if(!name||isNaN(lvl)) throw new Error(`Bad line: "${l}" — expected "Name level"`);
+    return {name, lvl};
+  });
+  // group by level
+  const byLevel={};
+  for(const p of players){ (byLevel[p.lvl]=byLevel[p.lvl]||[]).push(p); }
+  const levels=Object.keys(byLevel).map(Number).sort((a,b)=>a-b);
+  const teams=Array.from({length:nTeams},()=>({members:[], sum:0}));
+  for(const lvl of levels){
+    const group=shuffle(byLevel[lvl]);
+    for(const pl of group){
+      // find weakest sum
+      let idx=0, min=teams[0].sum;
+      for(let i=1;i<teams.length;i++) if(teams[i].sum < min){ min=teams[i].sum; idx=i; }
+      teams[idx].members.push(`${pl.name}(${pl.lvl})`);
+      teams[idx].sum += pl.lvl;
+    }
+  }
+  let txt='🎯 TEAMS GENERATED:\n';
+  teams.forEach((t,i)=>{ txt+=`Team ${i+1} (sum ${t.sum}): ${t.members.join(' ')}\n`; });
+  out.textContent=txt;
+  copyBtn.style.display='inline-flex';
+  copyBtn.onclick=async()=>{ await navigator.clipboard.writeText(txt); copyBtn.textContent='✓ Copied'; setTimeout(()=>copyBtn.textContent='⎘ Copy',1200); };
+}
+document.getElementById('gen').addEventListener('click', generate);
+document.getElementById('reroll').addEventListener('click', generate);
+try{ generate(); }catch(e){ err.textContent=e.message; err.style.display='block'; }
+</script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>My Linux workflow — rubengpb</title>
+  <link rel="stylesheet" href="../../assets/css/style.css" />
+</head>
+<body>
+  <nav class="nav" aria-label="Primary">
+    <span class="nav__brand"><span>λ</span> rubengpb</span>
+    <span class="nav__sep">|</span>
+    <ul class="nav__links">
+      <li><a href="../../index.html">:whoami</a></li>
+      <li><a href="../../projects/">:projects</a></li>
+      <li><a href="../" aria-current="page">:writings</a></li>
+      <li><a href="../../tools/">:tools</a></li>
+    </ul>
+  </nav>
+
+  <div class="breadcrumb"><a href="../../index.html">~/</a> / <a href="../">writings</a> / linux-workflow</div>
+
+  <main>
+    <article>
+      <h1>My Linux workflow</h1>
+      <div class="card__meta" style="margin:8px 0 16px;">
+        <span>EN</span> · <span>planned</span> · <span class="tag">linux</span> <span class="tag">tooling</span> · <a href="https://github.com/rubengpb/dotfiles" target="_blank" rel="noopener">dotfiles</a>
+      </div>
+
+      <p class="lead">Coming soon — in English. Reference: <a href="https://github.com/rubengpb/dotfiles" target="_blank" rel="noopener">rubengpb/dotfiles</a>.</p>
+
+      <div class="callout callout--info">
+        <strong>Stack:</strong> Neovim · Alacritty · tiling window manager · Zsh · tmux · GNOME vs Hyprland.
+        The dotfiles repo is the source of truth; this article will narrate the choices and the daily flow.
+      </div>
+
+      <h2>Planned outline</h2>
+      <ul class="list">
+        <li><span class="list__marker">›</span><span>Terminal-first: Alacritty + tmux + Zsh — sessions, panes, history.</span></li>
+        <li><span class="list__marker">›</span><span>Neovim as IDE — minimal, keyboard-driven and fast.</span></li>
+        <li><span class="list__marker">›</span><span>Tiling WM — workspaces, keybindings, focus over chrome.</span></li>
+        <li><span class="list__marker">›</span><span>GNOME vs Hyprland — when I use each and why.</span></li>
+        <li><span class="list__marker">›</span><span>AI-assisted dev — integrating modern tooling without losing the Unix way.</span></li>
+      </ul>
+
+      <h2>Dotfiles</h2>
+      <pre><code>$ git clone https://github.com/rubengpb/dotfiles ~/.dotfiles
+$ stow nvim alacritty zsh tmux</code></pre>
+      <p class="small muted">Commands are illustrative — see the repo for the actual setup.</p>
+
+      <hr />
+      <p class="small"><a href="../">← Back to writings</a></p>
+    </article>
+  </main>
+
+  <footer class="footer">
+    <span class="footer__mode">NORMAL</span>
+    <span class="footer__branch"> main</span>
+    <span class="footer__file">~/writings/linux-workflow/index.html</span>
+    <span class="footer__pos">1:1</span>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>abstract-machines — rubengpb</title>
+  <link rel="stylesheet" href="../../assets/css/style.css" />
+</head>
+<body>
+  <nav class="nav" aria-label="Primary">
+    <span class="nav__brand"><span>λ</span> rubengpb</span>
+    <span class="nav__sep">|</span>
+    <ul class="nav__links">
+      <li><a href="../../index.html">:whoami</a></li>
+      <li><a href="../" aria-current="page">:projects</a></li>
+      <li><a href="../../writings/">:writings</a></li>
+      <li><a href="../../tools/">:tools</a></li>
+    </ul>
+  </nav>
+
+  <div class="breadcrumb"><a href="../../index.html">~/</a> / <a href="../">projects</a> / abstract-machines</div>
+
+  <main>
+    <h1># abstract-machines</h1>
+    <div style="display:flex; gap:8px; flex-wrap:wrap; margin:10px 0 14px;">
+      <span class="tag">abstract-machines</span>
+      <span class="tag">lambda-calculus</span>
+      <span class="tag">operational-semantics</span>
+    </div>
+
+    <p class="lead">
+      Implementations of abstract machines for the lambda calculus.
+    </p>
+
+    <p>
+      Abstract machines make evaluation explicit as transitions over a well-defined state
+      (term, environment, stack, dump, etc.). This repository collects several classic machines
+      and their variants — a concrete way to study how evaluators work under the hood.
+    </p>
+
+    <div style="display:flex; gap:8px; flex-wrap:wrap; margin:14px 0 20px;">
+      <a href="https://github.com/rubengpb/abstrac-machines" target="_blank" rel="noopener" class="btn btn--primary">GitHub →</a>
+    </div>
+
+    <hr />
+
+    <h2>Scope</h2>
+    <ul class="list">
+      <li><span class="list__marker">›</span><span>Classic machines for call-by-name / call-by-value.</span></li>
+      <li><span class="list__marker">›</span><span>Environment and closure handling made explicit.</span></li>
+      <li><span class="list__marker">›</span><span>Companion to <a href="../evaluators-exploring/">evaluators-exploring</a> — same calculi, different implementation view.</span></li>
+    </ul>
+
+    <h2>Structure</h2>
+    <pre><code>abstrac-machines/
+├── sec d / krivine / ...
+└── README — per-machine notes</code></pre>
+
+    <p class="small muted">Repository name on GitHub preserves original spelling: <code>abstrac-machines</code>.</p>
+  </main>
+
+  <footer class="footer">
+    <span class="footer__mode">NORMAL</span>
+    <span class="footer__branch"> main</span>
+    <span class="footer__file">~/projects/abstract-machines/index.html</span>
+    <span class="footer__pos">1:1</span>
+  </footer>
+</body>
+</html>

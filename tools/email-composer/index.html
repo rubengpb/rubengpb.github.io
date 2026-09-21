@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Email Composer — rubengpb</title>
+  <link rel="stylesheet" href="../../assets/css/style.css" />
+</head>
+<body>
+  <nav class="nav" aria-label="Primary">
+    <span class="nav__brand"><span>λ</span> rubengpb</span>
+    <span class="nav__sep">|</span>
+    <ul class="nav__links">
+      <li><a href="../../index.html">:whoami</a></li>
+      <li><a href="../../projects/">:projects</a></li>
+      <li><a href="../../writings/">:writings</a></li>
+      <li><a href="../" aria-current="page">:tools</a></li>
+    </ul>
+  </nav>
+  <div class="breadcrumb"><a href="../../index.html">~/</a> / <a href="../">tools</a> / email-composer &nbsp;·&nbsp; <code>correo/ + send-prueba.sh</code></div>
+
+  <main>
+    <h1># Email Composer <span class="muted" style="font-weight:400; font-size:0.55em;">preview · safe</span></h1>
+    <p class="small muted">Port of <code>correo/send-mail.sh</code> + <code>send-prueba.sh</code> — but <strong>never calls sendmail</strong>. Compose <code>From / To / Subject / Body</code>, preview raw + HTML (using <code>correo.html</code> placeholders), and generate a <code>mailto:</code> link. Offline, no sending.</p>
+
+    <div class="grid-2">
+      <div class="card">
+        <label class="small" style="font-weight:700;">To</label><input id="to" class="tool-input" placeholder="dest@example.com" value="" style="margin-top:6px;" />
+        <label class="small" style="font-weight:700; margin-top:10px; display:block;">From</label><input id="from" class="tool-input" placeholder='Amigo <falso@example.com>' value="Secret Santa <no-reply@example.com>" style="margin-top:6px;" />
+        <label class="small" style="font-weight:700; margin-top:10px; display:block;">Subject</label><input id="subject" class="tool-input" placeholder="Subject" value="🎁 Your Secret Santa" style="margin-top:6px;" />
+        <label class="small" style="font-weight:700; margin-top:10px; display:block;">Body (plain)</label><textarea id="body" class="tool-input" rows="7" placeholder="Write body — Ctrl-D equivalent is just finish typing">Hola {{nombre}}!
+Tu amigo invisible es: {{asignado}}
+Presupuesto: {{presupuesto}} — {{fecha}} en {{lugar}}
+Notas: {{notas}}</textarea>
+        <div class="tool-controls">
+          <button id="preview" class="btn btn--primary">Preview</button>
+          <button id="mailto" class="btn">mailto: link</button>
+          <button id="copyRaw" class="btn">⎘ Copy raw</button>
+        </div>
+        <div class="callout callout--info" style="margin-top:10px;">Safe: does not invoke <code>/usr/sbin/sendmail</code>. For real sending, use your mail client via the generated <code>mailto:</code>.</div>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0;">HTML template — <code>correo.html</code> placeholders</h3>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+          <input id="ph_nombre" class="tool-input" placeholder="nombre" value="manolo" />
+          <input id="ph_asignado" class="tool-input" placeholder="asignado" value="pepe" />
+          <input id="ph_presupuesto" class="tool-input" placeholder="presupuesto" value="20€" />
+          <input id="ph_fecha" class="tool-input" placeholder="fecha" value="2025-12-20" />
+          <input id="ph_lugar" class="tool-input" placeholder="lugar" value="Casa" />
+          <input id="ph_notas" class="tool-input" placeholder="notas" value="—" style="grid-column:1 / -1;" />
+          <textarea id="ph_wishlist" class="tool-input" placeholder="wishlist" rows="2" style="grid-column:1 / -1;">Libros, λ-calc</textarea>
+        </div>
+        <button id="htmlPreview" class="btn" style="margin-top:10px;">Render HTML preview</button>
+        <div id="htmlOut" style="margin-top:12px; border:1px solid var(--border-muted); border-radius:6px; overflow:hidden; display:none;"><iframe id="htmlFrame" style="width:100%; height:420px; border:0; background:white;"></iframe></div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:14px;">
+      <h3 style="margin-top:0;">Raw preview (RFC)</h3>
+      <pre id="raw" style="min-height:140px; white-space:pre-wrap;">— press Preview —</pre>
+      <p id="mailtoOut" class="small muted" style="word-break:break-all;"></p>
+    </div>
+  </main>
+
+  <footer class="footer"><span class="footer__mode">NORMAL</span><span class="footer__branch"> main</span><span class="footer__file">~/tools/email-composer/index.html</span><span class="footer__pos">1:1</span></footer>
+
+<script>
+const $=id=>document.getElementById(id);
+const rawEl=$('raw'), mailtoOut=$('mailtoOut');
+const htmlTemplate = "<!-- Plantilla email Amigo Invisible -->\n<!-- Reemplaza los placeholders {{nombre}}, {{asignado}}, {{presupuesto}}, {{fecha}}, {{lugar}}, {{notas}}, {{wishlist}} -->\n<!doctype html>\n<html lang=\"es\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">\n  <title>Amigo Invisible</title>\n  <style>\n    /* Muchos clientes ignoran <style>, pero dejamos lo esencial */\n    @media only screen and (max-width:600px) {\n      .container { width:100% !important; }\n      .hero { padding:18px !important; }\n    }\n    /* Peque\u00f1as animaciones y detalles (no garantizados en todos los clientes) */\n    @keyframes pop {\n      0% { transform: scale(1); }\n      50% { transform: scale(1.03); }\n      100% { transform: scale(1); }\n    }\n    .btn:hover { animation: pop .3s ease-in-out; }\n  </style>\n</head>\n<body style=\"margin:0; padding:16px; background-color:#f3f4f6; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;\">\n\n  <center style=\"width:100%;\">\n    <table role=\"presentation\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\" width=\"100%\">\n      <tr>\n        <td align=\"center\">\n          <!-- Contenedor -->\n          <table role=\"presentation\" class=\"container\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\" width=\"600\" style=\"max-width:600px; background:white; border-radius:12px; overflow:hidden; box-shadow:0 6px 18px rgba(0,0,0,0.08);\">\n            <!-- Cabecera -->\n            <tr>\n              <td class=\"hero\" style=\"background:linear-gradient(90deg,#7c3aed,#06b6d4); padding:24px; color:white; text-align:left;\">\n                <h1 style=\"margin:0; font-size:22px; line-height:1.1;\">\ud83c\udf81 \u00a1Sorpresa! \u2014 Amigo Invisible</h1>\n                <p style=\"margin:8px 0 0 0; opacity:.95;\">Hola <strong>{{nombre}}</strong>, ya tenemos tu asignaci\u00f3n \u2728</p>\n              </td>\n            </tr>\n\n            <!-- Cuerpo -->\n            <tr>\n              <td style=\"padding:20px;\">\n                <table role=\"presentation\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\">\n                  <tr>\n                    <td style=\"vertical-align:top;\">\n                      <!-- Tarjeta principal -->\n                      <table role=\"presentation\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"border:1px dashed #e6e6e6; border-radius:10px; padding:14px;\">\n                        <tr>\n                          <td style=\"font-size:16px; padding-bottom:8px;\">\n                            <strong style=\"font-size:16px;\">Tu asignado:</strong>\n                          </td>\n                        </tr>\n                        <tr>\n                          <td style=\"font-size:20px; font-weight:700; padding-bottom:8px;\">\n                            \ud83c\udf80 {{asignado}}\n                          </td>\n                        </tr>\n                        <tr>\n                          <td style=\"color:#555; font-size:14px; padding-bottom:8px;\">\n                            Presupuesto sugerido: <strong>{{presupuesto}}</strong> \u2022 Fecha de intercambio: <strong>{{fecha}}</strong>\n                          </td>\n                        </tr>\n                        <tr>\n                          <td style=\"padding:8px 0;\">\n                            <!-- Wishlist (si la hay) -->\n                            <div style=\"background:#fff7ed; padding:10px; border-radius:8px; border:1px solid #ffe8cc; font-size:14px;\">\n                              <strong>\ud83d\udca1 Ideas / Wishlist:</strong>\n                              <div style=\"margin-top:6px; color:#444;\">\n                                {{wishlist}}\n                              </div>\n                            </div>\n                          </td>\n                        </tr>\n\n                        <tr>\n                          <td style=\"padding-top:12px; font-size:14px; color:#444;\">\n                            <strong>\ud83d\udccd Lugar:</strong> {{lugar}}<br>\n                            <strong>\ud83d\udcdd Notas:</strong> {{notas}}\n                          </td>\n                        </tr>\n\n                        <tr>\n                          <td style=\"padding-top:14px;\">\n                            <!-- Botones -->\n                            <table role=\"presentation\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\">\n                              <tr>\n                                <td align=\"left\">\n                                  <!-- Mailto prellenado (aseg\u00farate de sustituir antes) -->\n                                  <a class=\"btn\" href=\"mailto:{{email_asignado}}?subject=\u00a1Hola%20{{asignado}}!%20Tu%20Amigo%20Invisible&body=Hola%20{{asignado}}%2C%0A%0ATu%20amigo%20invisible%20te%20ha%20dado%20pistas%20%F0%9F%8E%81.%0A%0A%2D%20Presupuesto%3A%20{{presupuesto}}%0A%2D%20Evento%3A%20{{fecha}}%20en%20{{lugar}}%0A%0A%20%20%20%20%20%20%20%20%20%20%20%20%20(Escribe%20aqui%20tu%20mensaje%20secreto)%0A\" \n                                  style=\"display:inline-block; text-decoration:none; padding:10px 16px; border-radius:8px; background:linear-gradient(90deg,#10b981,#06b6d4); color:white; font-weight:600; box-shadow:0 4px 10px rgba(16,185,129,0.18);\">\n                                    \u2709\ufe0f Enviar mensaje al asignado\n                                  </a>\n                                </td>\n                                <td width=\"12\"></td>\n                                <td align=\"left\">\n                                  <!-- Enlace a reglas / web (placeholder) -->\n                                  <a href=\"{{link_reglas}}\" style=\"display:inline-block; text-decoration:none; padding:10px 14px; border-radius:8px; border:1px solid #d1d5db; color:#374151; font-weight:600; background:white;\">\n                                    \ud83d\udcdc Ver reglas\n                                  </a>\n                                </td>\n                              </tr>\n                            </table>\n                          </td>\n                        </tr>\n\n                      </table>\n                    </td>\n                  </tr>\n\n                  <!-- Pie con mini-cartel divertido -->\n                  <tr>\n                    <td style=\"padding-top:16px; font-size:13px; color:#6b7280; text-align:center;\">\n                      \ud83c\udf84 \u00a1Que empiece la magia! Si tienes dudas contacta a <a href=\"mailto:organizador@example.com\" style=\"color:#7c3aed; text-decoration:none;\">el/ la organizador(a)</a>.\n                    </td>\n                  </tr>\n\n                </table>\n              </td>\n            </tr>\n\n            <!-- Footer -->\n            <tr>\n              <td style=\"background:#fafafa; padding:12px 20px; text-align:center; font-size:12px; color:#9ca3af;\">\n                <span style=\"display:block; margin-bottom:6px;\">\ud83d\udd12 Este correo contiene informaci\u00f3n privada del juego \u2014 tr\u00e1tala con discreci\u00f3n.</span>\n                <small>Si no deber\u00edas haber recibido esto, por favor notifica a la organizaci\u00f3n.</small>\n              </td>\n            </tr>\n\n          </table>\n          <!-- Fin contenedor -->\n        </td>\n      </tr>\n    </table>\n  </center>\n</body>\n</html>\n\n";
+
+function buildRaw(){
+  const to=$('to').value.trim();
+  const from=$('from').value.trim();
+  const subj=$('subject').value.trim();
+  const body=$('body').value;
+  return `From: ${from}\nTo: ${to}\nSubject: ${subj}\nMIME-Version: 1.0\nContent-Type: text/plain; charset="utf-8"\n\n${body}`;
+}
+function renderRaw(){
+  const raw=buildRaw();
+  rawEl.textContent=raw;
+  const enc = (s)=>encodeURIComponent(s);
+  const mailto=`mailto:${enc($('to').value.trim())}?subject=${enc($('subject').value)}&body=${enc($('body').value)}`;
+  mailtoOut.innerHTML=`<a href="${mailto}" class="btn btn--primary" style="margin-top:8px; display:inline-flex;">✉️ Open mailto</a> <span class="small muted" style="margin-left:8px;">${escapeHtml(mailto.slice(0,80))}…</span>`;
+  mailtoOut.dataset.href=mailto;
+}
+function escapeHtml(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+$('preview').addEventListener('click', renderRaw);
+$('mailto').addEventListener('click', ()=>{
+  renderRaw();
+  const href=mailtoOut.dataset.href;
+  if(href) window.location.href=href;
+});
+$('copyRaw').addEventListener('click', async()=>{
+  await navigator.clipboard.writeText(buildRaw());
+  const b=$('copyRaw'); const t=b.textContent; b.textContent='✓ Copied'; setTimeout(()=>b.textContent=t,1200);
+});
+
+$('htmlPreview').addEventListener('click', ()=>{
+  let tpl = htmlTemplate;
+  const map={
+    '{{nombre}}': $('ph_nombre').value,
+    '{{asignado}}': $('ph_asignado').value,
+    '{{presupuesto}}': $('ph_presupuesto').value,
+    '{{fecha}}': $('ph_fecha').value,
+    '{{lugar}}': $('ph_lugar').value,
+    '{{notas}}': $('ph_notas').value,
+    '{{wishlist}}': $('ph_wishlist').value,
+    '{{email_asignado}}': $('to').value,
+    '{{link_reglas}}': '#',
+  };
+  let html=tpl;
+  for(const [k,v] of Object.entries(map)) html=html.split(k).join(escapeHtml(v));
+  const frame=$('htmlFrame');
+  const out=$('htmlOut');
+  out.style.display='block';
+  frame.srcdoc=html;
+});
+</script>
+</body>
+</html>

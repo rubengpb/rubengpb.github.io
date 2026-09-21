@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>λ-REPL — tool</title>
+  <link rel="stylesheet" href="../../assets/css/style.css" />
+</head>
+<body>
+  <nav class="nav" aria-label="Primary">
+    <span class="nav__brand"><span>λ</span> rubengpb</span>
+    <span class="nav__sep">|</span>
+    <ul class="nav__links">
+      <li><a href="../../index.html">:whoami</a></li>
+      <li><a href="../../projects/">:projects</a></li>
+      <li><a href="../../writings/">:writings</a></li>
+      <li><a href="../" aria-current="page">:tools</a></li>
+    </ul>
+  </nav>
+
+  <div class="breadcrumb"><a href="../../index.html">~/</a> / <a href="../">tools</a> / lambda-repl &nbsp;·&nbsp; <a href="../../projects/evaluators-exploring/">docs</a></div>
+
+  <main style="padding-top:16px;">
+    <h1 style="margin-bottom:6px;">λ-REPL <span class="muted" style="font-weight:400; font-size:0.55em;">:online playground</span></h1>
+    <p class="small muted">Type a term and press <kbd>Enter</kbd>. <kbd>↑</kbd>/<kbd>↓</kbd> history · <code>:h</code> help · <code>:clear</code> clear.</p>
+
+    <div class="repl-bar" aria-hidden="true">
+      <span class="repl-bar__dot repl-bar__dot--red"></span>
+      <span class="repl-bar__dot repl-bar__dot--yellow"></span>
+      <span class="repl-bar__dot repl-bar__dot--green"></span>
+      <span style="margin-left:8px;">lambda-repl — zsh — 80×24</span>
+    </div>
+    <div id="terminal" class="repl--no-top-radius">
+      <div id="output"></div>
+      <div class="input-line">
+        <input id="input" type="text" autofocus autocomplete="off" aria-label="REPL input" />
+      </div>
+    </div>
+
+    <div class="callout callout--info" style="margin-top:16px;">
+      Also available as CLI inside <a href="../../projects/evaluators-exploring/">evaluators-exploring</a>. See project docs for installation.
+    </div>
+  </main>
+
+  <footer class="footer">
+    <span class="footer__mode">INSERT</span>
+    <span class="footer__branch"> main</span>
+    <span class="footer__file">~/tools/lambda-repl/index.html — λ-REPL</span>
+    <span class="footer__pos">80×24</span>
+  </footer>
+
+  <script type="module" src="../../assets/js/repl.js"></script>
+</body>
+</html>

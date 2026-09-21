@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>~/tools — rubengpb</title>
+  <link rel="stylesheet" href="../assets/css/style.css" />
+</head>
+<body>
+  <nav class="nav" aria-label="Primary">
+    <span class="nav__brand"><span>λ</span> rubengpb</span>
+    <span class="nav__sep">|</span>
+    <ul class="nav__links">
+      <li><a href="../index.html">:whoami</a></li>
+      <li><a href="../projects/">:projects</a></li>
+      <li><a href="../writings/">:writings</a></li>
+      <li><a href="../tools/" aria-current="page">:tools</a></li>
+    </ul>
+  </nav>
+
+  <div class="breadcrumb"><a href="../index.html">~/</a> / tools</div>
+
+  <main>
+    <h1># Tools <span class="muted" style="font-weight:400; font-size:0.6em;">:online · mobile-utils</span></h1>
+    <p class="muted small">Ported from <code>~/personal/mobile-utils</code> — shell scripts that had to work without a computer. Now running in the browser, offline-first (localStorage), minimal and vim-styled.</p>
+
+    <div class="card-grid" style="margin-top:20px;">
+      <article class="card card--interactive">
+        <div class="card__title"><a href="lambda-repl/">λ-REPL Online</a> <span class="tag tag--green">live</span></div>
+        <div class="card__meta"><span>PLT</span> · <span>evaluators-exploring</span></div>
+        <p class="card__desc">Pure lambda calculus playground — the original REPL with improved cursor and <code>:h</code>.</p>
+        <div class="card__links"><a href="lambda-repl/" class="btn btn--primary">Open →</a></div>
+      </article>
+
+      <article class="card card--interactive">
+        <div class="card__title"><a href="secret-santa/">Secret Santa</a> <span class="tag">amigo_invisible.sh</span></div>
+        <div class="card__meta"><span>derangement · no self-match</span></div>
+        <p class="card__desc">Paste <code>Name email</code> per line → derangement without fixed points → mock messages + export. Offline, no real email sent.</p>
+        <div class="card__links"><a href="secret-santa/" class="btn btn--primary">Open →</a></div>
+      </article>
+
+      <article class="card card--interactive">
+        <div class="card__title"><a href="bingo/">Bingo Caller + Board</a> <span class="tag">bingo.sh + visualizer</span></div>
+        <div class="card__meta"><span>1–90 · persistent drum</span></div>
+        <p class="card__desc">Shuffled drum saved in localStorage, <code>draw</code> one by one, green/gray board, continue or new drum. Replaces <code>bingo_sesion.txt</code>.</p>
+        <div class="card__links"><a href="bingo/" class="btn btn--primary">Open →</a></div>
+      </article>
+
+      <article class="card card--interactive">
+        <div class="card__title"><a href="teams/">Team Balancer</a> <span class="tag">crear_equipos.sh</span></div>
+        <div class="card__meta"><span>level-balanced · greedy</span></div>
+        <p class="card__desc">Paste <code>Name level</code> and number of teams → group by level, shuffle per level, assign to weakest sum.</p>
+        <div class="card__links"><a href="teams/" class="btn btn--primary">Open →</a></div>
+      </article>
+
+      <article class="card card--interactive">
+        <div class="card__title"><a href="scoreboard/">Scoreboard</a> <span class="tag">marcador.sh</span></div>
+        <div class="card__meta"><span>add · points · reset · sorted</span></div>
+        <p class="card__desc">Add teams, <code>points &lt;team&gt; &lt;n&gt;</code>, reset/remove, live sorted view. Persists as <code>marcador</code> in localStorage.</p>
+        <div class="card__links"><a href="scoreboard/" class="btn btn--primary">Open →</a></div>
+      </article>
+
+      <article class="card card--interactive">
+        <div class="card__title"><a href="stop/">Stop — Random Letters</a> <span class="tag">stop.sh</span></div>
+        <div class="card__meta"><span>A–Z · no repeats · session</span></div>
+        <p class="card__desc">Shuffled A–Z, draw one by one without repetition, board view, save/continue session like <code>letras_sesion.txt</code>.</p>
+        <div class="card__links"><a href="stop/" class="btn btn--primary">Open →</a></div>
+      </article>
+
+      <article class="card card--interactive">
+        <div class="card__title"><a href="email-composer/">Email Composer (preview)</a> <span class="tag">correo/ + send-prueba</span></div>
+        <div class="card__meta"><span>safe · no sendmail</span> · <span>mock only</span></div>
+        <p class="card__desc">Compose <code>From / To / Subject / Body</code>, preview raw RFC-style + HTML using <code>correo.html</code> template. Generates <code>mailto:</code> link — never calls sendmail.</p>
+        <div class="card__links"><a href="email-composer/" class="btn btn--primary">Open →</a></div>
+      </article>
+    </div>
+
+    <div class="callout callout--info" style="margin-top:22px;">
+      All tools work offline after load (no backend). State lives in <code>localStorage</code>, mirroring the original <code>*.txt</code> session files.
+    </div>
+  </main>
+
+  <footer class="footer">
+    <span class="footer__mode">NORMAL</span>
+    <span class="footer__branch"> main</span>
+    <span class="footer__file">~/tools/index.html</span>
+    <span class="footer__pos">1:1</span>
+  </footer>
+</body>
+</html>

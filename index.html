@@ -1,39 +1,228 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>~/rubengpb</title>
-    <link rel="stylesheet" href="assets/css/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Rubén García-Patos Benito — Computer Engineer (UPM), MSc Formal Methods, final-year BSc Mathematics (UNED). Logic, type theory, lambda calculus, data engineering." />
+  <title>~/rubengpb — whoami</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
 </head>
 <body>
-    <nav class="nav">
-        <strong>λ> whoami</strong> | <a href="docs.html">./view-docs.sh</a>
-    </nav>
 
-    <h1>λ> García-Patos Benito, R.<span class="cursor">_</span></h1>
-    <p>
-    I am a Computer Science studying Formal Methods at the 
-    <a href="https://www.upm.es/" target="_blank">Universidad Politécnica de
-    Madrid (UPM)</a>. My research focuses on logic, type theory, lambda
-    calculus, functional programming, theorem provers, programming
-    language theory and formal methods.
-    </p>
-
-    <h2>## Projects</h2>
-    <ul>
-        <li>
-        <strong>Lambda REPL:</strong> A multi-evaluator lambda calculus REPL
-        with many features and theoretical ideas.
-        [<a href="docs.html">See Docs</a>]
-        </li>
-        <li><strong>Dual-Calculus REPL:</strong> A dual-calculus repl.</li>
-        <li><strong>Lambda-REPL online:</strong> Play here in <a href="repl.html">
-        λ-REPL</a></li>
+  <!-- NAV — vim tabline -->
+  <nav class="nav" aria-label="Primary">
+    <span class="nav__brand"><span>λ</span> rubengpb</span>
+    <span class="nav__sep">|</span>
+    <ul class="nav__links">
+      <li><a href="index.html" aria-current="page">:whoami</a></li>
+      <li><a href="projects/">:projects</a></li>
+      <li><a href="writings/">:writings</a></li>
+      <li><a href="tools/">:tools</a></li>
     </ul>
+  </nav>
 
-    <h2>## Contact</h2>
-    <p>Email: <a href="mailto:lambdacalculusrepl@gmail.com">lambdacalculusrepl@gmail.com</a></p>
-    <p>GitHub: <a href="https://github.com/rubengpb">@rubengpb</a></p>
+  <main>
+    <!-- HERO -->
+    <section>
+      <h1>λ> García-Patos Benito, R.<span class="cursor">_</span></h1>
+      <p class="lead">
+        Computer Engineer from the
+        <a href="https://www.upm.es/" target="_blank" rel="noopener">Universidad Politécnica de Madrid (UPM)</a>,
+        MSc in Formal Methods, and final-year BSc Mathematics student at
+        <a href="https://www.uned.es/" target="_blank" rel="noopener">UNED</a>.
+        I work at the intersection of theory and tooling — from formal semantics to
+        runnable prototypes that make theoretical ideas tangible.
+      </p>
+      <p>
+        My work bridges rigorous foundations and practical engineering. Whether exploring
+        evaluation strategies in the lambda calculus or building data pipelines with
+        open-source technologies, I care about correctness, clarity, and choosing
+        the right tool for the job.
+      </p>
+    </section>
+
+    <!-- INTERESTS — 2 column grid -->
+    <section>
+      <div class="section-head">
+        <h2 style="margin:0">Interests</h2>
+        <span class="section-head__path">~/interests — 2 splits</span>
+      </div>
+
+      <div class="grid-2">
+        <!-- Academic interests — from contenido.md -->
+        <article class="card">
+          <h3 style="margin-top:0">:Research — Academic interests</h3>
+          <p>
+            My academic focus is on the foundations of computation and programming languages:
+          </p>
+          <ul class="stack small" style="list-style:none; padding:0; margin-top:10px;">
+            <li>▸ <strong>Logic</strong> — classical and constructive logic, proof theory.</li>
+            <li>▸ <strong>Type theory</strong> — type systems, Curry–Howard, dependent types.</li>
+            <li>▸ <strong>Lambda calculus</strong> — syntax, semantics, evaluation strategies, abstract machines.</li>
+            <li>▸ <strong>Functional programming</strong> — Erlang, Elixir, Haskell-style thinking.</li>
+            <li>▸ <strong>Theorem provers</strong> — machine-checked proofs and verification.</li>
+            <li>▸ <strong>Programming language theory</strong> &amp; <strong>Formal methods</strong> — specification, semantics, correctness by construction.</li>
+          </ul>
+          <div style="margin-top:14px; display:flex; gap:6px; flex-wrap:wrap;">
+            <span class="tag tag--accent">logic</span>
+            <span class="tag">type-theory</span>
+            <span class="tag">lambda-calculus</span>
+            <span class="tag">functional-programming</span>
+            <span class="tag">theorem-provers</span>
+            <span class="tag">formal-methods</span>
+          </div>
+        </article>
+
+        <!-- Professional interests — from contenido.md -->
+        <article class="card">
+          <h3 style="margin-top:0">:Work — Professional interests</h3>
+          <p>
+            On the engineering side, I am focused on <strong>data engineering</strong> and sound
+            tooling:
+          </p>
+          <ul class="stack small" style="list-style:none; padding:0; margin-top:10px;">
+            <li>▸ <strong>Data engineering</strong> — data processing with open-source Apache technologies.</li>
+            <li>▸ <strong>Linux enthusiast</strong> — daily driver, tiling window manager, terminal-first workflow.</li>
+            <li>▸ <strong>Right tool for the job</strong> — pragmatic, Unix-philosophy approach to technology selection.</li>
+            <li>▸ <strong>AI-assisted software development</strong> — integrating modern AI tooling into the daily engineering workflow.</li>
+          </ul>
+          <div style="margin-top:14px; display:flex; gap:6px; flex-wrap:wrap;">
+            <span class="tag tag--green">data-engineering</span>
+            <span class="tag">apache</span>
+            <span class="tag">linux</span>
+            <span class="tag">AI-assisted-dev</span>
+          </div>
+          <p class="small" style="margin-top:14px;">
+            → Get in touch: <a href="mailto:lambdacalculusrepl@gmail.com">lambdacalculusrepl@gmail.com</a>
+            · <a href="https://github.com/rubengpb" target="_blank" rel="noopener">github.com/rubengpb</a>
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <!-- PROJECTS preview -->
+    <section>
+      <div class="section-head">
+        <h2 style="margin:0">Featured projects</h2>
+        <a href="projects/" class="small">:Projects →</a>
+      </div>
+      <div class="card-grid card-grid--2">
+        <article class="card card--interactive">
+          <div class="card__title"><a href="projects/evaluators-exploring/">evaluators-exploring</a> <span class="tag tag--accent" style="margin-left:6px">MSc thesis</span></div>
+          <div class="card__meta"><span>type: REPL / research</span> · <span>pure &amp; value lambda calculus</span></div>
+          <p class="card__desc">Pure and value lambda calculus REPL designed for teaching and research. Explores a wide range of evaluation strategies and evaluator implementation techniques. Part of my MSc thesis (TFM).</p>
+          <div class="card__links">
+            <a href="projects/evaluators-exploring/">Docs →</a>
+            <a href="tools/lambda-repl/">Try online →</a>
+            <a href="https://github.com/rubengpb/evaluators-exploring" target="_blank" rel="noopener">GitHub</a>
+          </div>
+        </article>
+        <article class="card card--interactive">
+          <div class="card__title"><a href="projects/lambda-mu/">lambda-mu</a> <span class="tag" style="margin-left:6px">classical logic</span></div>
+          <div class="card__meta"><span>type: REPL</span> · <span>λμ-calculus</span></div>
+          <p class="card__desc">REPL for the λμ-calculus — interesting because it types classical logic (Parigot). Explore control operators and classical Curry–Howard.</p>
+          <div class="card__links">
+            <a href="projects/lambda-mu/">View project →</a>
+            <a href="https://github.com/rubengpb/lambda-mu" target="_blank" rel="noopener">GitHub</a>
+          </div>
+        </article>
+        <article class="card card--interactive">
+          <div class="card__title"><a href="projects/abstract-machines/">abstract-machines</a></div>
+          <div class="card__meta"><span>type: implementations</span> · <span>SECD, Krivine, etc.</span></div>
+          <p class="card__desc">Implementations of abstract machines for the lambda calculus. A hands-on survey of evaluation as machine transitions.</p>
+          <div class="card__links"><a href="projects/abstract-machines/">View project →</a> <a href="https://github.com/rubengpb/abstrac-machines" target="_blank" rel="noopener">GitHub</a></div>
+        </article>
+        <article class="card card--interactive">
+          <div class="card__title"><a href="projects/prolixir/">prolixir</a> <span class="tag tag--green" style="margin-left:6px">BSc thesis</span></div>
+          <div class="card__meta"><span>type: library</span> · <span>Elixir ↔ Ciao Prolog</span></div>
+          <p class="card__desc">Library to interact with Ciao Prolog from Elixir via OS processes. Part of my BSc thesis (TFG).</p>
+          <div class="card__links"><a href="projects/prolixir/">View project →</a></div>
+        </article>
+      </div>
+      <p class="small muted" style="margin-top:12px;">See all 7 projects in <a href="projects/">:projects</a> — including Erlang, AoC, and SPE.</p>
+    </section>
+
+    <!-- WRITINGS preview -->
+    <section>
+      <div class="section-head">
+        <h2 style="margin:0">Writings</h2>
+        <a href="writings/" class="small">:Writings →</a>
+      </div>
+      <ul class="list">
+        <li>
+          <span class="list__marker">01</span>
+          <div>
+            <a href="writings/intro-lambda-calculus/">Introducción al cálculo lambda</a>
+            <span class="tag" style="margin-left:8px">ES</span>
+            <span class="tag tag--yellow" style="margin-left:4px">in progress</span>
+            <div class="small muted">Spanish · foundations · syntax · semantics — draft preview available</div>
+          </div>
+        </li>
+        <li>
+          <span class="list__marker">02</span>
+          <div>
+            <a href="writings/logic-basics/">Nociones básicas de lógica</a>
+            <span class="tag" style="margin-left:8px">ES</span>
+            <span class="tag tag--yellow" style="margin-left:4px">planned</span>
+            <div class="small muted">Spanish · propositional &amp; predicate logic</div>
+          </div>
+        </li>
+        <li>
+          <span class="list__marker">03</span>
+          <div>
+            <a href="writings/curry-howard/">Curry–Howard</a>
+            <span class="tag" style="margin-left:8px">ES</span>
+            <span class="tag tag--yellow" style="margin-left:4px">planned</span>
+            <div class="small muted">Spanish · proofs as programs</div>
+          </div>
+        </li>
+        <li>
+          <span class="list__marker">04</span>
+          <div>
+            <a href="writings/linux-workflow/">My Linux workflow</a>
+            <span class="tag tag--accent" style="margin-left:8px">EN</span>
+            <span class="tag tag--yellow" style="margin-left:4px">planned</span>
+            <div class="small muted">English · nvim, alacritty, tiling WM, zsh, tmux, GNOME vs Hyprland · <a href="https://github.com/rubengpb/dotfiles" target="_blank" rel="noopener">dotfiles</a></div>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <!-- TOOLS preview -->
+    <section>
+      <div class="section-head">
+        <h2 style="margin:0">Tools</h2>
+        <a href="tools/" class="small">:Tools →</a>
+      </div>
+      <div class="card-grid card-grid--2">
+        <article class="card card--interactive">
+          <div class="card__title"><a href="tools/lambda-repl/">λ-REPL Online</a> <span class="tag tag--green" style="margin-left:6px">live</span></div>
+          <p class="card__desc">Browser playground for pure lambda calculus. Write terms, evaluate with different strategies, no install needed. Based on <code>evaluators-exploring</code>.</p>
+          <div class="card__links"><a href="tools/lambda-repl/" class="btn btn--primary">Open REPL →</a> <a href="projects/evaluators-exploring/">Docs</a></div>
+        </article>
+        <article class="card">
+          <div class="card__title">More tools</div>
+          <p class="card__desc">Space for future online utilities (normalizers, visualizers, converters). Each tool lives in <code>tools/&lt;slug&gt;/</code>.</p>
+          <p class="small muted" style="margin-top:8px;">Add a folder in <code>tools/&lt;slug&gt;/</code> and list it in <a href="tools/">/tools/</a>.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section>
+      <h2>Contact</h2>
+      <p>Email: <a href="mailto:lambdacalculusrepl@gmail.com">lambdacalculusrepl@gmail.com</a> &nbsp;·&nbsp; GitHub: <a href="https://github.com/rubengpb" target="_blank" rel="noopener">@rubengpb</a> &nbsp;·&nbsp; Dotfiles: <a href="https://github.com/rubengpb/dotfiles" target="_blank" rel="noopener">rubengpb/dotfiles</a></p>
+      <p class="small muted">Open to collaborations in formal methods, PLT, and data engineering.</p>
+    </section>
+  </main>
+
+  <!-- FOOTER — vim statusline -->
+  <footer class="footer" aria-label="Status">
+    <span class="footer__mode">NORMAL</span>
+    <span class="footer__branch"> main</span>
+    <span class="footer__file">~/index.html — rubengpb.github.io</span>
+    <span class="footer__pos">1:1 Top</span>
+  </footer>
 
 </body>
 </html>

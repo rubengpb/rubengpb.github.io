@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Introducción al cálculo lambda — rubengpb</title>
+  <link rel="stylesheet" href="../../assets/css/style.css" />
+</head>
+<body>
+  <nav class="nav" aria-label="Primary">
+    <span class="nav__brand"><span>λ</span> rubengpb</span>
+    <span class="nav__sep">|</span>
+    <ul class="nav__links">
+      <li><a href="../../index.html">:whoami</a></li>
+      <li><a href="../../projects/">:projects</a></li>
+      <li><a href="../" aria-current="page">:writings</a></li>
+      <li><a href="../../tools/">:tools</a></li>
+    </ul>
+  </nav>
+
+  <div class="breadcrumb"><a href="../../index.html">~/</a> / <a href="../">writings</a> / intro-lambda-calculus</div>
+
+  <main>
+    <article>
+      <h1>Introducción al cálculo lambda</h1>
+      <div class="card__meta" style="margin:8px 0 16px;">
+        <span>ES</span> · <span>in progress</span> · <span class="tag">lambda-calculus</span> <span class="tag">foundations</span>
+      </div>
+
+      <p class="lead">
+        Una introducción en castellano al cálculo lambda — el lenguaje más pequeño con el que aún se puede decir todo.
+      </p>
+
+      <div class="callout callout--info">
+        <strong>Estado:</strong> borrador en curso. Este artículo está marcado como “falta por hacer” en el plan, pero aquí va un adelanto de la dirección y la estructura.
+      </div>
+
+      <h2>Qué es</h2>
+      <p>
+        El cálculo lambda es un modelo de computación basado en tres ideas: <strong>variables</strong>, <strong>abstracción</strong> (<code>λx. M</code>) y <strong>aplicación</strong> (<code>M N</code>).
+        Con solo eso se puede expresar cualquier función computable.
+      </p>
+      <pre><code><span class="comment">-- identidad, aplicación, Church numerals (esbozo)</span>
+λx. x
+(λx. x) y  →  y
+λf. λx. f (f x)   <span class="comment">-- 2</span></code></pre>
+
+      <h2>Sintaxis mínima</h2>
+      <pre><code>M, N ::= x | λx. M | M N</code></pre>
+      <p>
+        A partir de aquí aparecen los temas clásicos: variables libres y ligadas, α-conversión, β-reducción y estrategias de evaluación.
+        Para experimentar, usa el REPL de <a href="../../projects/evaluators-exploring/">evaluators-exploring</a> o el playground en <a href="../../tools/lambda-repl/">tools/lambda-repl</a>.
+      </p>
+
+      <h2>Qué viene después</h2>
+      <ul class="list">
+        <li><span class="list__marker">›</span><span>Reducción y formas normales, con ejemplos ejecutables.</span></li>
+        <li><span class="list__marker">›</span><span>Call-by-name vs call-by-value y por qué importa.</span></li>
+        <li><span class="list__marker">›</span><span>Puente hacia <a href="../logic-basics/">lógica</a> y <a href="../curry-howard/">Curry–Howard</a>.</span></li>
+      </ul>
+
+      <hr />
+      <p class="small muted">Idioma: castellano, según plan. Artículo en progreso — el contenido completo se añadirá aquí.</p>
+      <p class="small"><a href="../">← Back to writings</a></p>
+    </article>
+  </main>
+
+  <footer class="footer">
+    <span class="footer__mode">NORMAL</span>
+    <span class="footer__branch"> main</span>
+    <span class="footer__file">~/writings/intro-lambda-calculus/index.html</span>
+    <span class="footer__pos">1:1</span>
+  </footer>
+</body>
+</html>

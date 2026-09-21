@@ -1,74 +1,504 @@
+/* =============================================================================
+   ~/rubengpb — style.css  v2.0
+   Filosofía: minimal, vim / linux, Tokyo Night. Un único entry point.
+   Estructura:
+     1. Variables (theme)
+     2. Reset & Base
+     3. Layout
+     4. Top navigation (vim tabline)
+     5. Typography
+     6. Components (cards, tags, buttons, lists)
+     7. Code blocks
+     8. Footer / statusline
+     9. Terminal (REPL)
+     10. Utilities & Responsive
+   ============================================================================= */
+
+/* 1. Variables -------------------------------------------------------------- */
 :root {
-    --bg: #1a1b26;      /* Tokyo Night wall */
-    --fg: #a9b1d6;      /* grey text */
-    --accent: #7aa2f7;  /* blue links */
-    --comment: #565f89; /* grey comments */
+  /* palette — Tokyo Night + vim */
+  --bg:            #1a1b26;
+  --bg-alt:        #24283b;
+  --bg-elevated:   #292e42;
+  --bg-highlight:  #292e42;
+  --fg:            #c0caf5;
+  --fg-dim:        #a9b1d6;
+  --fg-faint:      #565f89;
+  --comment:       #565f89;
+  --border:        #414868;
+  --border-muted:  #292e42;
+
+  --accent:        #7aa2f7; /* blue — links */
+  --accent-hover:  #bb9af7; /* purple */
+  --red:           #f7768e;
+  --green:         #9ece6a;
+  --yellow:        #e0af68;
+  --cyan:          #7dcfff;
+  --orange:        #ff9e64;
+
+  /* layout — más aire, sin sensación de encajonado */
+  --max-w:         920px;
+  --content-pad:   clamp(16px, 3vw, 32px);
+  --radius:        6px;
+  --radius-sm:     4px;
+
+  /* typography — escala fluida: legible en móvil, más grande en desktop */
+  --font-mono:     "JetBrains Mono", "Cascadia Code", "Fira Code",
+                   "Courier New", Courier, monospace;
+  --font-size:     clamp(16px, 0.32vw + 15px, 18px);
+  --line-height:   1.75;
+  --line-height-heading: 1.22;
+}
+
+/* 2. Reset & Base ----------------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+* { margin: 0; }
+
+html {
+  scrollbar-gutter: stable;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 body {
-    background-color: var(--bg);
-    color: var(--fg);
-    font-family: 'Courier New', Courier, monospace;
-    line-height: 1.6;
-    max-width: 800px;
-    margin: 40px auto;
-    padding: 0 20px;
+  background: var(--bg);
+  color: var(--fg-dim);
+  font-family: var(--font-mono);
+  font-size: var(--font-size);
+  line-height: var(--line-height);
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 var(--content-pad) 0;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
 }
+
+::selection { background: #33467c; color: var(--fg); }
+:focus-visible { outline: 1.5px solid var(--accent); outline-offset: 2px; }
 
 a { color: var(--accent); text-decoration: none; }
-a:hover { text-decoration: underline; color: #bb9af7; }
+a:hover { color: var(--accent-hover); text-decoration: underline; }
+a:focus-visible { border-radius: 2px; }
 
-h1, h2 { color: #f7768e; } /* headers red */
+img { max-width: 100%; display: block; }
+hr {
+  border: none;
+  border-top: 1px solid var(--border-muted);
+  margin: 2rem 0;
+}
 
-.cursor { animation: blink 1s infinite; }
+/* 3. Layout ----------------------------------------------------------------- */
+.container { width: 100%; max-width: var(--max-w); margin: 0 auto; }
+main { flex: 1; padding: clamp(28px, 4vw, 44px) 0 clamp(40px, 5vw, 64px); }
+section { margin-bottom: clamp(32px, 4vw, 48px); }
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(18px, 2.5vw, 26px);
+}
+.stack > * + * { margin-top: 12px; }
+
+/* 4. Top navigation — vim tabline ------------------------------------------- */
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 18px;
+  padding: 18px 0 14px;
+  margin-bottom: clamp(22px, 3vw, 32px);
+  border-bottom: 1px solid var(--border-muted);
+  font-size: 0.92em;
+  letter-spacing: -0.01em;
+}
+.nav__brand { color: var(--fg); font-weight: 700; font-size: 1.05em; }
+.nav__brand span { color: var(--green); }
+.nav__sep { color: var(--comment); user-select: none; }
+.nav__links { display: flex; flex-wrap: wrap; gap: 6px 12px; list-style: none; padding: 0; }
+.nav__links a {
+  color: var(--fg-dim);
+  padding: 5px 9px;
+  border-radius: var(--radius-sm);
+  min-height: 32px;
+  display: inline-flex;
+  align-items: center;
+}
+.nav__links a:hover { background: var(--bg-elevated); text-decoration: none; color: var(--fg); }
+.nav__links a[aria-current="page"] {
+  background: var(--bg-elevated);
+  color: var(--accent);
+  border: 1px solid var(--border);
+}
+
+/* command palette hint */
+.nav__hint {
+  margin-left: auto;
+  color: var(--comment);
+  font-size: 0.85em;
+  white-space: nowrap;
+}
+.nav__hint kbd {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-bottom-width: 2px;
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 0.9em;
+  color: var(--fg-dim);
+}
+
+/* breadcrumb for subpages */
+.breadcrumb {
+  font-size: 0.82em;
+  color: var(--comment);
+  margin-bottom: 18px;
+}
+.breadcrumb a { color: var(--comment); }
+.breadcrumb a:hover { color: var(--fg-dim); }
+
+/* 5. Typography ------------------------------------------------------------- */
+h1, h2, h3, h4 {
+  color: var(--fg);
+  line-height: var(--line-height-heading);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+h1 {
+  font-size: clamp(1.5em, 3.5vw, 1.85em);
+  margin-bottom: 16px;
+  color: var(--fg);
+}
+h1 .accent { color: var(--red); }
+h2 {
+  font-size: clamp(1.05em, 2vw, 1.2em);
+  margin: 36px 0 14px;
+  color: var(--red);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+h2::before { content: "##"; color: var(--comment); font-weight: 400; font-size: 0.9em; }
+h3 { font-size: clamp(0.98em, 1.6vw, 1.08em); margin: 22px 0 10px; color: var(--cyan); }
+h3::before { content: "### "; color: var(--comment); font-weight: 400; }
+
+p { margin-bottom: 14px; }
+p.lead { color: var(--fg); font-size: clamp(1.02em, 1.8vw, 1.08em); line-height: 1.7; }
+.muted { color: var(--comment); }
+.small { font-size: 0.88em; }
+.cursor { animation: blink 1s step-end infinite; color: var(--fg); }
 @keyframes blink { 50% { opacity: 0; } }
 
-pre { background: #24283b; padding: 15px; border-radius: 5px; overflow-x: auto; }
-code { color: #9ece6a; } /* green code */
+/* 6. Components ------------------------------------------------------------- */
 
-.nav { margin-bottom: 50px; border-bottom: 1px solid var(--comment); padding-bottom: 10px; }
+/* cards — para projects / writings / tools */
+.card {
+  background: var(--bg-alt);
+  border: 1px solid var(--border-muted);
+  border-radius: var(--radius);
+  padding: clamp(18px, 2.5vw, 22px) clamp(18px, 2.5vw, 22px);
+  transition: border-color 0.15s, transform 0.15s;
+}
+.card:hover { border-color: var(--border); }
+.card--interactive:hover { transform: translateY(-1px); border-color: var(--comment); }
+.card__title { font-size: 1.02em; color: var(--fg); font-weight: 700; margin-bottom: 6px; }
+.card__title a { color: inherit; }
+.card__title a:hover { color: var(--accent); }
+.card__meta {
+  font-size: 0.82em;
+  color: var(--comment);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.card__desc { font-size: 0.94em; color: var(--fg-dim); line-height: 1.65; }
+.card__links { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 10px; font-size: 0.88em; }
+.card-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(14px, 2vw, 18px);
+}
+@media (min-width: 640px) { .card-grid--2 { grid-template-columns: 1fr 1fr; } }
 
-/* --- REPL terminal --- */
+/* tags / badges — vim style */
+.tag, .badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.75em;
+  line-height: 1;
+  padding: 4px 7px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--bg-elevated);
+  color: var(--fg-dim);
+  white-space: nowrap;
+}
+.tag--accent { border-color: #335a9a; color: var(--accent); background: #1e2a4a; }
+.tag--green  { border-color: #3a4a2e; color: var(--green);  background: #1e2e1a; }
+.tag--yellow { border-color: #4a3a1e; color: var(--yellow); background: #2e2610; }
+
+/* buttons — :w style */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: inherit;
+  font-size: 0.85em;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--bg-elevated);
+  color: var(--fg-dim);
+  cursor: pointer;
+  text-decoration: none;
+}
+.btn:hover { background: var(--bg-highlight); color: var(--fg); text-decoration: none; border-color: var(--comment); }
+.btn--primary { background: var(--accent); color: #1a1b26; border-color: var(--accent); font-weight: 700; }
+.btn--primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); color: #1a1b26; }
+.btn--ghost { background: transparent; }
+
+/* lists — vim buffer style */
+.list { list-style: none; padding: 0; }
+.list li {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border-muted);
+  display: flex;
+  gap: 12px;
+}
+.list li:last-child { border-bottom: none; }
+.list__marker { color: var(--comment); user-select: none; flex-shrink: 0; }
+
+/* callout — like vim :help */
+.callout {
+  border-left: 3px solid var(--yellow);
+  background: #2e2a1a;
+  padding: 12px 14px;
+  border-radius: 0 var(--radius) var(--radius) 0;
+  font-size: 0.9em;
+  color: var(--fg-dim);
+}
+.callout--info { border-color: var(--accent); background: #1e2a4a; }
+
+/* kbd already styled above; inline code */
+code {
+  font-family: inherit;
+  font-size: 0.92em;
+  background: var(--bg-elevated);
+  padding: 1px 5px;
+  border-radius: 4px;
+  color: var(--green);
+  border: 1px solid var(--border-muted);
+}
+
+/* section header with file path */
+.section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+.section-head__path {
+  font-size: 0.78em;
+  color: var(--comment);
+}
+
+/* 7. Code blocks ------------------------------------------------------------ */
+pre {
+  background: var(--bg-alt);
+  border: 1px solid var(--border-muted);
+  padding: clamp(14px, 2vw, 18px);
+  border-radius: var(--radius);
+  overflow-x: auto;
+  font-size: 0.9em;
+  line-height: 1.65;
+}
+pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--green);
+}
+pre .comment { color: var(--comment); }
+
+/* 8. Footer — vim statusline ------------------------------------------------ */
+.footer {
+  margin-top: auto;
+  border-top: 1px solid var(--border-muted);
+  padding: 0;
+  font-size: 0.82em;
+  color: var(--comment);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  overflow: hidden;
+  border-radius: 0 0 var(--radius) var(--radius);
+}
+.footer__mode {
+  background: var(--accent);
+  color: #1a1b26;
+  padding: 6px 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.footer__branch {
+  background: var(--bg-elevated);
+  color: var(--fg-dim);
+  padding: 6px 12px;
+  border-right: 1px solid var(--border-muted);
+}
+.footer__file {
+  padding: 6px 12px;
+  flex: 1;
+  min-width: 120px;
+  background: var(--bg-alt);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.footer__pos {
+  padding: 6px 12px;
+  background: var(--bg-elevated);
+  border-left: 1px solid var(--border-muted);
+  white-space: nowrap;
+}
+.footer a { color: inherit; }
+.footer a:hover { color: var(--fg-dim); }
+
+/* 9. Terminal (REPL) -------------------------------------------------------- */
 #terminal {
-    margin-top: 40px;
+  background: var(--bg-alt);
+  border: 1px solid var(--border-muted);
+  border-radius: var(--radius);
+  padding: clamp(14px, 2.5vw, 20px);
+  min-height: clamp(380px, 55vh, 520px);
+  font-size: clamp(0.92em, 1.5vw, 0.98em);
+  line-height: 1.55;
+  cursor: text;
 }
-
-#terminal div {
-    line-height: 1.5;
-}
-
-.cursor {
-    display: inline-block;
-    width: 8px;
-    background-color: var(--fg);
-    animation: blink 1s infinite;
-    margin-left: 2px;
-}
-
-.line {
-    white-space: pre-wrap;
-}
-
+#terminal div { line-height: 1.5; }
+#terminal .line { white-space: pre-wrap; word-break: break-word; }
 .input-line {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin-top: 4px;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+.prompt { color: var(--green); font-weight: 700; flex-shrink: 0; user-select: none; }
+#current-line { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0; }
+#current-line .before, #current-line .after { white-space: pre; }
+#current-line .cursor {
+  display: inline-block;
+  width: 9px;
+  height: 1.25em;
+  background: var(--fg);
+  vertical-align: text-bottom;
+  margin: 0 1px;
+  animation: blink 1s step-end infinite;
+}
+#current-line .cursor::after { content: "\00a0"; }
+#terminal input, #terminal #input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--fg);
+  font-family: inherit;
+  font-size: 1em;
+  width: 100%;
+  caret-color: var(--fg);
+}
+/* hide the static native input visually but keep it focusable for mobile keyboards */
+#terminal > .input-line:not(#current-line) {
+  position: absolute;
+  opacity: 0;
+  height: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+#output .line { margin-bottom: 4px; }
+
+/* --- Tools shared --- */
+.tool-controls { display:flex; flex-wrap:wrap; gap:10px; margin:14px 0; }
+.tool-input { width:100%; background:var(--bg-elevated); border:1px solid var(--border); border-radius:var(--radius); color:var(--fg); font-family:inherit; font-size:0.92em; padding:12px; }
+.tool-input:focus { outline:1.5px solid var(--accent); border-color:var(--accent); }
+textarea.tool-input { min-height:140px; resize:vertical; line-height:1.6; }
+.tool-grid { display:grid; gap:12px; }
+.board { display:grid; grid-template-columns: repeat(10, 1fr); gap:6px; margin:12px 0; }
+.board__cell { aspect-ratio:1; display:flex; align-items:center; justify-content:center; border:1px solid var(--border-muted); border-radius:6px; font-size:0.9em; font-weight:700; background:var(--bg-alt); color:var(--comment); }
+.board__cell--drawn { background:var(--accent); color:#1a1b26; border-color:var(--accent); }
+.board__cell--remaining { background:var(--bg-elevated); color:var(--comment); }
+.board__cell--letters { font-size:1em; }
+.ball { display:flex; align-items:center; justify-content:center; width:110px; height:110px; border-radius:50%; background:var(--bg-elevated); border:2px solid var(--border); font-size:2.2em; font-weight:800; color:var(--fg); margin:12px auto; }
+.ball--empty { color:var(--comment); font-size:1em; }
+.score-row { display:flex; align-items:center; gap:10px; padding:10px 12px; background:var(--bg-alt); border:1px solid var(--border-muted); border-radius:var(--radius); }
+.score-row__name { flex:1; font-weight:700; color:var(--fg); }
+.score-row__pts { min-width:48px; text-align:center; font-weight:800; color:var(--accent); }
+
+/* REPL page header bar */
+.repl-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-muted);
+  border-bottom: none;
+  border-radius: var(--radius) var(--radius) 0 0;
+  font-size: 0.82em;
+  color: var(--comment);
+}
+.repl-bar__dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+.repl-bar__dot--red { background: var(--red); }
+.repl-bar__dot--yellow { background: var(--yellow); }
+.repl-bar__dot--green { background: var(--green); }
+#terminal.repl--no-top-radius { border-top-left-radius: 0; border-top-right-radius: 0; }
+
+/* 10. Utilities & Responsive ------------------------------------------------- */
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; }
+.text-accent { color: var(--accent); }
+.text-red { color: var(--red); }
+.text-green { color: var(--green); }
+.mt-0 { margin-top: 0; }
+.divider { border: none; border-top: 1px dashed var(--border); margin: 24px 0; }
+
+@media (max-width: 880px) {
+  .grid-2 { grid-template-columns: 1fr; }
+  .nav__hint { display: none; }
 }
 
-.prompt {
-    margin-right: 8px;
-    color: var(--accent);
+@media (max-width: 720px) {
+  body { padding: 0 var(--content-pad); }
+  .nav { gap: 8px 12px; padding: 14px 0 12px; }
+  .nav__links { gap: 4px 8px; }
+  .nav__links a { padding: 4px 7px; font-size: 0.95em; }
+  .footer { font-size: 0.78em; }
+  .footer__file { display: none; }
+  .breadcrumb { font-size: 0.78em; }
 }
 
-input {
-    background: transparent;
-    border: none;
-    outline: none;
-    color: var(--fg);
-    font-family: inherit;
-    font-size: 1em;
-    width: 100%;
+@media (max-width: 480px) {
+  :root { --content-pad: 16px; }
+  body { line-height: 1.7; }
+  .card { padding: 16px 16px; }
+  .card-grid { gap: 12px; }
+  pre { font-size: 0.85em; padding: 12px; }
+  .btn { width: 100%; justify-content: center; }
+  .card__links .btn { width: auto; }
+  #terminal { padding: 12px; min-height: 360px; }
 }
 
-#output .line {
-    margin-bottom: 4px;
+/* large screens — evita que se vea pequeño en monitores grandes */
+@media (min-width: 1100px) {
+  :root { --max-w: 960px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cursor { animation: none; }
+  .card { transition: none; }
 }

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>prolixir — rubengpb</title>
+  <link rel="stylesheet" href="../../assets/css/style.css" />
+</head>
+<body>
+  <nav class="nav" aria-label="Primary">
+    <span class="nav__brand"><span>λ</span> rubengpb</span>
+    <span class="nav__sep">|</span>
+    <ul class="nav__links">
+      <li><a href="../../index.html">:whoami</a></li>
+      <li><a href="../" aria-current="page">:projects</a></li>
+      <li><a href="../../writings/">:writings</a></li>
+      <li><a href="../../tools/">:tools</a></li>
+    </ul>
+  </nav>
+
+  <div class="breadcrumb"><a href="../../index.html">~/</a> / <a href="../">projects</a> / prolixir</div>
+
+  <main>
+    <h1># prolixir <span class="muted" style="font-weight:400; font-size:0.55em;">BSc thesis · Elixir ↔ Ciao Prolog</span></h1>
+    <div style="display:flex; gap:8px; flex-wrap:wrap; margin:10px 0 14px;">
+      <span class="tag tag--accent">BSc thesis</span>
+      <span class="tag">elixir</span>
+      <span class="tag">ciao-prolog</span>
+      <span class="tag">processes</span>
+    </div>
+
+    <p class="lead">Library to interact with Ciao Prolog from Elixir through OS processes. Part of my BSc thesis (TFG).</p>
+
+    <p>
+      The BEAM and Prolog worlds meet via process communication: Elixir spawns and talks to a
+      Ciao Prolog engine, exchanging queries and answers. Useful for embedding logic programming
+      inside Elixir applications without tight native bindings.
+    </p>
+
+    <hr />
+
+    <h2>What it does</h2>
+    <ul class="list">
+      <li><span class="list__marker">›</span><span>Spawns Ciao Prolog as a managed OS process from Elixir.</span></li>
+      <li><span class="list__marker">›</span><span>Sends queries and streams results back to Elixir.</span></li>
+      <li><span class="list__marker">›</span><span>Keeps the boundary simple: processes and messages, no NIFs.</span></li>
+    </ul>
+
+    <h2>Context</h2>
+    <p>Built during my undergraduate studies (TFG) while exploring the intersection of logic and functional/concurrent programming.</p>
+  </main>
+
+  <footer class="footer">
+    <span class="footer__mode">NORMAL</span>
+    <span class="footer__branch"> main</span>
+    <span class="footer__file">~/projects/prolixir/index.html</span>
+    <span class="footer__pos">1:1</span>
+  </footer>
+</body>
+</html>

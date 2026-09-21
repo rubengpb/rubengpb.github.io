@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>lambda-mu — rubengpb</title>
+  <link rel="stylesheet" href="../../assets/css/style.css" />
+</head>
+<body>
+  <nav class="nav" aria-label="Primary">
+    <span class="nav__brand"><span>λ</span> rubengpb</span>
+    <span class="nav__sep">|</span>
+    <ul class="nav__links">
+      <li><a href="../../index.html">:whoami</a></li>
+      <li><a href="../" aria-current="page">:projects</a></li>
+      <li><a href="../../writings/">:writings</a></li>
+      <li><a href="../../tools/">:tools</a></li>
+    </ul>
+  </nav>
+
+  <div class="breadcrumb"><a href="../../index.html">~/</a> / <a href="../">projects</a> / lambda-mu</div>
+
+  <main>
+    <h1># lambda-mu</h1>
+    <div style="display:flex; gap:8px; flex-wrap:wrap; margin:10px 0 14px;">
+      <span class="tag tag--accent">λμ-calculus</span>
+      <span class="tag">classical-logic</span>
+      <span class="tag">REPL</span>
+    </div>
+
+    <p class="lead">
+      REPL for the λμ-calculus — interesting because it types <strong>classical logic</strong> (Parigot).
+    </p>
+
+    <p>
+      While the pure lambda calculus corresponds to intuitionistic logic via Curry–Howard,
+      λμ extends the correspondence to classical reasoning with control operators
+      (<code>μ</code>, continuations, call/cc-style constructs). This project explores that
+      bridge: terms, types, and evaluation for classical proofs as programs.
+    </p>
+
+    <div style="display:flex; gap:8px; flex-wrap:wrap; margin:14px 0 20px;">
+      <a href="https://github.com/rubengpb/lambda-mu" target="_blank" rel="noopener" class="btn btn--primary">GitHub →</a>
+    </div>
+
+    <hr />
+
+    <h2>Why λμ?</h2>
+    <ul class="list">
+      <li><span class="list__marker">›</span><span>Classical logic is not just “intuitionistic + excluded middle” — λμ gives it computational content.</span></li>
+      <li><span class="list__marker">›</span><span>Control operators become first-class: capturing and composing continuations.</span></li>
+      <li><span class="list__marker">›</span><span>A natural next step after pure/value lambda calculus in <a href="../evaluators-exploring/">evaluators-exploring</a>.</span></li>
+    </ul>
+
+    <h2>REPL</h2>
+    <p>Interactive loop for introducing λμ terms, inspecting types, and stepping through reduction.</p>
+    <pre><code>$ git clone https://github.com/rubengpb/lambda-mu
+$ cd lambda-mu &amp;&amp; make run
+λμ> μa. [a] x</code></pre>
+
+    <hr />
+    <p class="small muted"><a href="https://github.com/rubengpb/lambda-mu" target="_blank" rel="noopener">github.com/rubengpb/lambda-mu</a></p>
+  </main>
+
+  <footer class="footer">
+    <span class="footer__mode">NORMAL</span>
+    <span class="footer__branch"> main</span>
+    <span class="footer__file">~/projects/lambda-mu/index.html</span>
+    <span class="footer__pos">1:1</span>
+  </footer>
+</body>
+</html>

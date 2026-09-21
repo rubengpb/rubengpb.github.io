@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>~/projects — rubengpb</title>
+  <link rel="stylesheet" href="../assets/css/style.css" />
+</head>
+<body>
+  <nav class="nav" aria-label="Primary">
+    <span class="nav__brand"><span>λ</span> rubengpb</span>
+    <span class="nav__sep">|</span>
+    <ul class="nav__links">
+      <li><a href="../index.html">:whoami</a></li>
+      <li><a href="../projects/" aria-current="page">:projects</a></li>
+      <li><a href="../writings/">:writings</a></li>
+      <li><a href="../tools/">:tools</a></li>
+    </ul>
+  </nav>
+
+  <div class="breadcrumb"><a href="../index.html">~/</a> / projects</div>
+
+  <main>
+    <h1># Projects <span class="muted" style="font-weight:400; font-size:0.6em;">:ls</span></h1>
+    <p class="small muted">Each project lives in <code>projects/&lt;slug&gt;/index.html</code>. Full documentation, source links and status on each page.</p>
+
+    <div class="card-grid" style="margin-top:22px;">
+
+      <article class="card card--interactive">
+        <div class="card__title"><a href="evaluators-exploring/">evaluators-exploring</a> <span class="tag tag--accent" style="margin-left:6px">MSc thesis</span> <span class="tag tag--green" style="margin-left:4px">featured</span></div>
+        <div class="card__meta"><span>type: REPL · research · teaching</span> · <span>pure &amp; value lambda calculus</span></div>
+        <p class="card__desc">Pure and value lambda calculus REPL designed for teaching and research. Wide range of evaluation strategies and evaluator implementation techniques. Part of my MSc thesis (TFM).</p>
+        <div class="card__links">
+          <a href="evaluators-exploring/">Docs →</a>
+          <a href="../tools/lambda-repl/">Try online →</a>
+          <a href="https://github.com/rubengpb/evaluators-exploring" target="_blank" rel="noopener">GitHub</a>
+        </div>
+      </article>
+
+      <article class="card card--interactive">
+        <div class="card__title"><a href="lambda-mu/">lambda-mu</a> <span class="tag" style="margin-left:6px">classical logic</span></div>
+        <div class="card__meta"><span>type: REPL</span> · <span>λμ-calculus · Parigot</span></div>
+        <p class="card__desc">REPL for the λμ-calculus — notable because it types classical logic. Study control operators and the classical extension of Curry–Howard.</p>
+        <div class="card__links"><a href="lambda-mu/">View project →</a> <a href="https://github.com/rubengpb/lambda-mu" target="_blank" rel="noopener">GitHub</a></div>
+      </article>
+
+      <article class="card card--interactive">
+        <div class="card__title"><a href="abstract-machines/">abstract-machines</a></div>
+        <div class="card__meta"><span>type: implementations</span> · <span>abstract machines</span></div>
+        <p class="card__desc">Implementations of abstract machines for the lambda calculus (e.g. SECD, Krivine and related machines). Evaluation as state transitions, made executable.</p>
+        <div class="card__links"><a href="abstract-machines/">View project →</a> <a href="https://github.com/rubengpb/abstrac-machines" target="_blank" rel="noopener">GitHub</a></div>
+      </article>
+
+      <article class="card card--interactive">
+        <div class="card__title"><a href="erlang-intro/">Introduction to programming in Erlang</a></div>
+        <div class="card__meta"><span>type: learning · functional</span> · <span>Erlang</span></div>
+        <p class="card__desc">First steps in Erlang — functional programming, concurrency and the actor model. Exercises and notes from learning the language.</p>
+        <div class="card__links"><a href="erlang-intro/">View project →</a> <a href="https://github.com/rubengpb/erlang-functional-programming" target="_blank" rel="noopener">GitHub</a></div>
+      </article>
+
+      <article class="card card--interactive">
+        <div class="card__title"><a href="aoc/">Advent of Code</a></div>
+        <div class="card__meta"><span>type: challenges</span> · <span>aoc2024 · aoc2025</span></div>
+        <p class="card__desc">Solving the classic December programming puzzles — clean solutions, emphasis on functional style and algorithmic clarity.</p>
+        <div class="card__links">
+          <a href="aoc/">View project →</a>
+          <a href="https://github.com/rubengpb/aoc2024" target="_blank" rel="noopener">aoc2024</a> ·
+          <a href="https://github.com/rubengpb/aoc2025" target="_blank" rel="noopener">aoc2025</a>
+        </div>
+      </article>
+
+      <article class="card card--interactive">
+        <div class="card__title"><a href="prolixir/">prolixir</a> <span class="tag tag--accent" style="margin-left:6px">BSc thesis</span></div>
+        <div class="card__meta"><span>type: library</span> · <span>Elixir ↔ Ciao Prolog · processes</span></div>
+        <p class="card__desc">Library to interact with Ciao Prolog from Elixir through OS processes. Part of my BSc thesis (TFG).</p>
+        <div class="card__links"><a href="prolixir/">View project →</a></div>
+      </article>
+
+      <article class="card card--interactive">
+        <div class="card__title"><a href="spe/">spe</a></div>
+        <div class="card__meta"><span>type: systems</span> · <span>orchestration · job managers · workers</span></div>
+        <p class="card__desc">Project for task orchestration with job managers, workers and scheduling. Systems-level exploration of concurrency and coordination.</p>
+        <div class="card__links"><a href="spe/">View project →</a></div>
+      </article>
+
+    </div>
+
+    <hr />
+    <p class="small muted">Want to add a new project? Duplicate any folder in <code>projects/</code> and link it here.</p>
+  </main>
+
+  <footer class="footer">
+    <span class="footer__mode">NORMAL</span>
+    <span class="footer__branch"> main</span>
+    <span class="footer__file">~/projects/index.html</span>
+    <span class="footer__pos">1:1</span>
+  </footer>
+</body>
+</html>

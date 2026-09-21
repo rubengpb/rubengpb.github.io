@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>evaluators-exploring — rubengpb</title>
+  <link rel="stylesheet" href="../../assets/css/style.css" />
+</head>
+<body>
+  <nav class="nav" aria-label="Primary">
+    <span class="nav__brand"><span>λ</span> rubengpb</span>
+    <span class="nav__sep">|</span>
+    <ul class="nav__links">
+      <li><a href="../../index.html">:whoami</a></li>
+      <li><a href="../" aria-current="page">:projects</a></li>
+      <li><a href="../../writings/">:writings</a></li>
+      <li><a href="../../tools/">:tools</a></li>
+    </ul>
+  </nav>
+
+  <div class="breadcrumb"><a href="../../index.html">~/</a> / <a href="../">projects</a> / evaluators-exploring</div>
+
+  <main>
+    <h1># evaluators-exploring <span class="muted" style="font-weight:400; font-size:0.55em;">MSc thesis · REPL</span></h1>
+    <div style="display:flex; gap:8px; flex-wrap:wrap; margin:10px 0 14px;">
+      <span class="tag tag--accent">lambda-calculus</span>
+      <span class="tag">pure</span>
+      <span class="tag">value</span>
+      <span class="tag">evaluators</span>
+      <span class="tag tag--green">teaching</span>
+      <span class="tag tag--green">research</span>
+    </div>
+
+    <p class="lead">
+      REPL for the pure and value lambda calculus, designed primarily for <strong>teaching and research</strong>.
+      It gathers a broad range of evaluation strategies and evaluator implementation techniques in one place.
+      Part of my MSc thesis (TFM).
+    </p>
+
+    <div style="display:flex; gap:8px; flex-wrap:wrap; margin:14px 0 20px;">
+      <a href="https://github.com/rubengpb/evaluators-exploring" target="_blank" rel="noopener" class="btn btn--primary">GitHub →</a>
+      <a href="../../tools/lambda-repl/" class="btn">Try online (λ-REPL)</a>
+    </div>
+
+    <hr />
+
+    <h2>Goals</h2>
+    <p>
+      Make operational semantics concrete. Instead of describing strategies on paper, run them:
+      normal order, applicative order, call-by-value / call-by-name, and variations, with different
+      evaluator styles (naïve substitution, environments, closures, etc.).
+    </p>
+    <ul class="list">
+      <li><span class="list__marker">›</span><span>Compare strategies side-by-side on the same terms.</span></li>
+      <li><span class="list__marker">›</span><span>Show how implementation technique affects behaviour and efficiency.</span></li>
+      <li><span class="list__marker">›</span><span>Provide a playground for courses and for exploring confluence and termination.</span></li>
+    </ul>
+
+    <h2>Implementation notes</h2>
+    <p>Core is a small, focused codebase: lexer, parser, AST, evaluator variants and pretty-printer.</p>
+    <pre><code>evaluators-exploring/
+├── src/        — evaluators, strategies
+├── parser/     — lexer + parser + AST
+└── repl        — interactive loop</code></pre>
+
+    <h2>Teaching use</h2>
+    <div class="callout callout--info">
+      Ideal for a first PLT / logic course: students can see why <code>(\x. y) Ω</code> terminates
+      under normal order but diverges under applicative order — live in the REPL.
+    </div>
+
+    <h2>Online version</h2>
+    <p>The web REPL at <a href="../../tools/lambda-repl/">tools/lambda-repl/</a> reuses the same ideas in vanilla JS for zero-install demos.</p>
+
+    <hr />
+    <p class="small muted">Part of <a href="../">projects</a> · MSc thesis (TFM) · <a href="https://github.com/rubengpb/evaluators-exploring" target="_blank" rel="noopener">github.com/rubengpb/evaluators-exploring</a></p>
+  </main>
+
+  <footer class="footer">
+    <span class="footer__mode">NORMAL</span>
+    <span class="footer__branch"> main</span>
+    <span class="footer__file">~/projects/evaluators-exploring/index.html</span>
+    <span class="footer__pos">1:1</span>
+  </footer>
+</body>
+</html>

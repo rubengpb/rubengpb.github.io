@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bingo — rubengpb</title>
+  <link rel="stylesheet" href="../../assets/css/style.css" />
+</head>
+<body>
+  <nav class="nav" aria-label="Primary">
+    <span class="nav__brand"><span>λ</span> rubengpb</span>
+    <span class="nav__sep">|</span>
+    <ul class="nav__links">
+      <li><a href="../../index.html">:whoami</a></li>
+      <li><a href="../../projects/">:projects</a></li>
+      <li><a href="../../writings/">:writings</a></li>
+      <li><a href="../" aria-current="page">:tools</a></li>
+    </ul>
+  </nav>
+  <div class="breadcrumb"><a href="../../index.html">~/</a> / <a href="../">tools</a> / bingo &nbsp;·&nbsp; <code>bingo.sh + bingo_visualicer.sh</code></div>
+
+  <main>
+    <h1># Bingo Caller <span class="muted" style="font-weight:400; font-size:0.55em;">1–90 · drum</span></h1>
+    <p class="small muted">Port of <code>bingo.sh</code> (shuffled drum saved to <code>bingo_sesion.txt</code>) + <code>bingo_visualicer.sh</code> (green = drawn, gray = remaining). Here persisted in <code>localStorage: bingo_session</code>.</p>
+
+    <div class="card">
+      <div id="ball" class="ball ball--empty">—</div>
+      <div class="tool-controls" style="justify-content:center;">
+        <button id="drawBtn" class="btn btn--primary">↵ Draw (ENTER)</button>
+        <button id="newBtn" class="btn">New drum</button>
+        <button id="saveBtn" class="btn">Save session</button>
+        <button id="clearBtn" class="btn">Clear</button>
+      </div>
+      <p class="small muted" style="text-align:center;">Press <kbd>Enter</kbd> or tap Draw. <kbd>q</kbd> equivalent is <em>Save &amp; keep drum</em>.</p>
+      <p id="status" class="small muted" style="text-align:center;"></p>
+    </div>
+
+    <div class="card" style="margin-top:14px;">
+      <h3 style="margin-top:0;">Board <span class="small muted" style="font-weight:400;">green = drawn · gray = remaining</span></h3>
+      <div id="board" class="board"></div>
+      <p class="small muted">History: <span id="history">—</span></p>
+    </div>
+
+    <div class="callout" style="margin-top:14px;">Mirrors shell: <code>seq 1 90 | shuf → bingo_sesion.txt → mapfile &amp; shift</code>. Continue with saved session or shuffle anew.</div>
+  </main>
+
+  <footer class="footer"><span class="footer__mode">NORMAL</span><span class="footer__branch"> main</span><span class="footer__file">~/tools/bingo/index.html</span><span class="footer__pos">1:1</span></footer>
+
+<script>
+const KEY='bingo_session';
+const ball=document.getElementById('ball');
+const board=document.getElementById('board');
+const statusEl=document.getElementById('status');
+const histEl=document.getElementById('history');
+let remaining=[]; let drawn=[];
+
+function shuffle(a){ const b=a.slice(); for(let i=b.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [b[i],b[j]]=[b[j],b[i]] } return b; }
+function newDrum(){ remaining=shuffle(Array.from({length:90},(_,i)=>i+1)); drawn=[]; save(); render(); }
+function save(){ localStorage.setItem(KEY, JSON.stringify({remaining, drawn})); statusEl.textContent=`Saved — ${remaining.length} left · ${drawn.length} drawn`; }
+function load(){
+  const raw=localStorage.getItem(KEY);
+  if(raw){
+    try{ const o=JSON.parse(raw); remaining=o.remaining||[]; drawn=o.drawn||[]; if(remaining.length||drawn.length) { render(); return true; } }catch{}
+  }
+  return false;
+}
+function clearSession(){ localStorage.removeItem(KEY); remaining=[]; drawn=[]; ball.textContent='—'; ball.className='ball ball--empty'; statusEl.textContent='Cleared — press New drum'; histEl.textContent='—'; renderBoard(); }
+
+function render(){
+  if(remaining.length===0 && drawn.length===0) { ball.textContent='—'; ball.className='ball ball--empty'; }
+  else if(drawn.length) { ball.textContent=drawn[drawn.length-1]; ball.className='ball'; }
+  statusEl.textContent = remaining.length ? `${remaining.length} left · ${drawn.length} drawn` : (drawn.length? 'All numbers drawn! — New drum to restart' : 'Empty drum');
+  histEl.textContent = drawn.length ? drawn.join(' · ') : '—';
+  renderBoard();
+}
+function renderBoard(){
+  board.innerHTML='';
+  const remainSet=new Set(remaining);
+  for(let i=1;i<=90;i++){
+    const cell=document.createElement('div');
+    cell.className='board__cell'+ (remainSet.has(i) ? '' : ' board__cell--drawn');
+    cell.textContent=i;
+    board.appendChild(cell);
+  }
+}
+function draw(){
+  if(remaining.length===0){ ball.textContent='Done'; save(); render(); return; }
+  const n=remaining.shift();
+  drawn.push(n);
+  ball.textContent=n; ball.className='ball';
+  save(); render();
+}
+document.getElementById('drawBtn').addEventListener('click', draw);
+document.getElementById('newBtn').addEventListener('click', newDrum);
+document.getElementById('saveBtn').addEventListener('click', save);
+document.getElementById('clearBtn').addEventListener('click', clearSession);
+document.addEventListener('keydown', e=>{
+  if(e.key==='Enter') draw();
+  if(e.key==='q') save();
+});
+if(!load()){ newDrum(); } else { render(); }
+</script>
+</body>
+</html>

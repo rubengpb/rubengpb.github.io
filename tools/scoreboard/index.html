@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Scoreboard — rubengpb</title>
+  <link rel="stylesheet" href="../../assets/css/style.css" />
+</head>
+<body>
+  <nav class="nav" aria-label="Primary">
+    <span class="nav__brand"><span>λ</span> rubengpb</span>
+    <span class="nav__sep">|</span>
+    <ul class="nav__links">
+      <li><a href="../../index.html">:whoami</a></li>
+      <li><a href="../../projects/">:projects</a></li>
+      <li><a href="../../writings/">:writings</a></li>
+      <li><a href="../" aria-current="page">:tools</a></li>
+    </ul>
+  </nav>
+  <div class="breadcrumb"><a href="../../index.html">~/</a> / <a href="../">tools</a> / scoreboard &nbsp;·&nbsp; <code>marcador.sh</code></div>
+
+  <main>
+    <h1># Scoreboard <span class="muted" style="font-weight:400; font-size:0.55em;">marcador</span></h1>
+    <p class="small muted">Port of <code>marcador.sh</code> (<code>marcador.txt</code> → <code>localStorage: scoreboard</code>). Commands: <code>add &lt;team&gt;</code>, <code>points &lt;team&gt; &lt;n&gt;</code>, <code>reset</code>, <code>remove</code>, <code>info</code> sorted desc.</p>
+
+    <div class="card">
+      <div class="tool-controls" style="align-items:end;">
+        <div style="flex:1; min-width:160px;"><label class="small" style="font-weight:700;">Team</label><input id="teamIn" class="tool-input" placeholder="e.g. red" /></div>
+        <div style="width:120px;"><label class="small" style="font-weight:700;">Points</label><input id="ptsIn" class="tool-input" type="number" placeholder="5" value="1"/></div>
+        <button id="addBtn" class="btn">add</button>
+        <button id="ptsBtn" class="btn btn--primary">points</button>
+      </div>
+      <div class="tool-controls">
+        <button id="infoBtn" class="btn">info (sort)</button>
+        <button id="clearBtn" class="btn">clear all</button>
+        <input id="cmd" class="tool-input" placeholder='type: add red  |  points red 5  |  reset red  |  remove red  |  info' style="flex:1;" />
+      </div>
+      <p id="msg" class="small muted"></p>
+    </div>
+
+    <div id="board" class="tool-grid" style="margin-top:14px;"></div>
+    <pre id="info" class="small muted" style="display:none; margin-top:10px; background:var(--bg-alt); padding:12px; border-radius:6px; border:1px solid var(--border-muted);"></pre>
+  </main>
+
+  <footer class="footer"><span class="footer__mode">NORMAL</span><span class="footer__branch"> main</span><span class="footer__file">~/tools/scoreboard/index.html</span><span class="footer__pos">1:1</span></footer>
+
+<script>
+const KEY='scoreboard';
+const teamIn=document.getElementById('teamIn');
+const ptsIn=document.getElementById('ptsIn');
+const board=document.getElementById('board');
+const info=document.getElementById('info');
+const msg=document.getElementById('msg');
+const cmd=document.getElementById('cmd');
+function load(){ try{ return JSON.parse(localStorage.getItem(KEY)||'{}'); }catch{ return {}; } }
+function save(o){ localStorage.setItem(KEY, JSON.stringify(o)); }
+let data=load();
+function render(){
+  board.innerHTML='';
+  const entries=Object.entries(data).sort((a,b)=>b[1]-a[1]);
+  if(!entries.length){ board.innerHTML='<p class="small muted">(empty) — add a team</p>'; info.style.display='none'; return; }
+  for(const [team, pts] of entries){
+    const row=document.createElement('div'); row.className='score-row';
+    row.innerHTML=`<span class="score-row__name">${escapeHtml(team)}</span><span class="score-row__pts">${pts}</span>
+      <button class="btn" data-act="plus" data-t="${escapeAttr(team)}">+1</button>
+      <button class="btn" data-act="minus" data-t="${escapeAttr(team)}">-1</button>
+      <button class="btn" data-act="reset" data-t="${escapeAttr(team)}">reset</button>
+      <button class="btn" data-act="remove" data-t="${escapeAttr(team)}">remove</button>`;
+    board.appendChild(row);
+  }
+  // info block like shell sort -k2 -nr
+  info.textContent = entries.map(([t,p])=>`${t} ${p}`).join('\n');
+}
+function escapeHtml(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function escapeAttr(s){ return s.replace(/"/g,'&quot;'); }
+function setMsg(t, isErr){ msg.textContent=t; msg.className=isErr? 'small text-red':'small muted'; }
+function addTeam(name){
+  name=name.trim(); if(!name){ setMsg('❌ add <team>',true); return; }
+  if(data[name]!==undefined){ setMsg(`⚠️ Team '${name}' already exists`,true); return; }
+  data[name]=0; save(data); render(); setMsg(`✅ Team '${name}' added with 0`);
+}
+function pointsTeam(name, pts){
+  if(data[name]===undefined){ setMsg(`⚠️ Team '${name}' does not exist`,true); return; }
+  data[name]+=Number(pts); save(data); render(); setMsg(`✅ ${name} now ${data[name]}`);
+}
+function resetTeam(name){ if(data[name]===undefined){ setMsg('⚠️ No such team',true); return;} data[name]=0; save(data); render(); setMsg(`🔄 ${name} reset to 0`); }
+function removeTeam(name){ if(data[name]===undefined){ setMsg('⚠️ No such team',true); return;} delete data[name]; save(data); render(); setMsg(`🗑️ ${name} removed`); }
+
+board.addEventListener('click', e=>{
+  const b=e.target.closest('button'); if(!b) return;
+  const t=b.dataset.t; const act=b.dataset.act;
+  if(act==='plus') pointsTeam(t,1);
+  if(act==='minus') pointsTeam(t,-1);
+  if(act==='reset') resetTeam(t);
+  if(act==='remove') removeTeam(t);
+});
+document.getElementById('addBtn').addEventListener('click',()=> addTeam(teamIn.value));
+document.getElementById('ptsBtn').addEventListener('click',()=> pointsTeam(teamIn.value.trim(), parseInt(ptsIn.value,10)||0));
+document.getElementById('infoBtn').addEventListener('click',()=>{ info.style.display = info.style.display==='none'?'block':'none'; });
+document.getElementById('clearBtn').addEventListener('click',()=>{ data={}; save(data); render(); setMsg('Cleared'); });
+
+function execCmdLine(line){
+  const parts=line.trim().split(/\s+/);
+  const c=parts[0];
+  if(!c) return;
+  if(c==='add') addTeam(parts[1]||'');
+  else if(c==='points') pointsTeam(parts[1], parseInt(parts[2],10));
+  else if(c==='reset') resetTeam(parts[1]);
+  else if(c==='remove') removeTeam(parts[1]);
+  else if(c==='info') info.style.display='block';
+  else if(c==='exit') setMsg('No exit in browser — just close tab');
+  else setMsg('❌ Unknown command',true);
+}
+cmd.addEventListener('keydown', e=>{ if(e.key==='Enter'){ execCmdLine(cmd.value); cmd.value=''; } });
+render();
+</script>
+</body>
+</html>

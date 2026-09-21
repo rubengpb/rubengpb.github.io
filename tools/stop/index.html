@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Stop — rubengpb</title>
+  <link rel="stylesheet" href="../../assets/css/style.css" />
+</head>
+<body>
+  <nav class="nav" aria-label="Primary">
+    <span class="nav__brand"><span>λ</span> rubengpb</span>
+    <span class="nav__sep">|</span>
+    <ul class="nav__links">
+      <li><a href="../../index.html">:whoami</a></li>
+      <li><a href="../../projects/">:projects</a></li>
+      <li><a href="../../writings/">:writings</a></li>
+      <li><a href="../" aria-current="page">:tools</a></li>
+    </ul>
+  </nav>
+  <div class="breadcrumb"><a href="../../index.html">~/</a> / <a href="../">tools</a> / stop &nbsp;·&nbsp; <code>stop.sh</code></div>
+
+  <main>
+    <h1># Stop — Random Letters <span class="muted" style="font-weight:400; font-size:0.55em;">A–Z · no repeats</span></h1>
+    <p class="small muted">Port of <code>stop.sh</code> (<code>letras_sesion.txt</code> → <code>localStorage: stop_session</code>). Shuffled A–Z, draw one by one. For word games like Stop.</p>
+
+    <div class="card">
+      <div id="ball" class="ball ball--empty">—</div>
+      <div class="tool-controls" style="justify-content:center;">
+        <button id="drawBtn" class="btn btn--primary">↵ Draw letter</button>
+        <button id="newBtn" class="btn">New shuffle</button>
+        <button id="saveBtn" class="btn">Save</button>
+        <button id="clearBtn" class="btn">Clear</button>
+      </div>
+      <p class="small muted" style="text-align:center;">Press <kbd>Enter</kbd> to draw. <kbd>q</kbd> saves session.</p>
+      <p id="status" class="small muted" style="text-align:center;"></p>
+    </div>
+
+    <div class="card" style="margin-top:14px;">
+      <h3 style="margin-top:0;">Board <span class="small muted" style="font-weight:400;">green = drawn</span></h3>
+      <div id="board" class="board" style="grid-template-columns: repeat(6, 1fr); max-width:520px;"></div>
+      <p class="small muted">History: <span id="hist">—</span></p>
+    </div>
+  </main>
+
+  <footer class="footer"><span class="footer__mode">NORMAL</span><span class="footer__branch"> main</span><span class="footer__file">~/tools/stop/index.html</span><span class="footer__pos">1:1</span></footer>
+
+<script>
+const KEY='stop_session';
+const ball=document.getElementById('ball');
+const board=document.getElementById('board');
+const statusEl=document.getElementById('status');
+const hist=document.getElementById('hist');
+let remaining=[], drawn=[];
+function shuffle(a){ const b=a.slice(); for(let i=b.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [b[i],b[j]]=[b[j],b[i]] } return b; }
+function newShuffle(){ remaining=shuffle(Array.from({length:26},(_,i)=>String.fromCharCode(65+i))); drawn=[]; save(); render(); }
+function save(){ localStorage.setItem(KEY, JSON.stringify({remaining, drawn})); statusEl.textContent=`${remaining.length} left · ${drawn.length} drawn`; }
+function load(){ const raw=localStorage.getItem(KEY); if(raw){ try{ const o=JSON.parse(raw); remaining=o.remaining||[]; drawn=o.drawn||[]; if(remaining.length||drawn.length) {render(); return true;} }catch{} } return false; }
+function clearS(){ localStorage.removeItem(KEY); remaining=[]; drawn=[]; ball.textContent='—'; ball.className='ball ball--empty'; statusEl.textContent='Cleared — New shuffle'; hist.textContent='—'; renderBoard(); }
+function render(){ if(drawn.length) { ball.textContent=drawn[drawn.length-1]; ball.className='ball'; } else { ball.textContent='—'; ball.className='ball ball--empty'; } if(!remaining.length && drawn.length) statusEl.textContent='All letters drawn!'; else statusEl.textContent=`${remaining.length} left · ${drawn.length} drawn`; hist.textContent=drawn.length?drawn.join(' · '):'—'; renderBoard(); save(); }
+function renderBoard(){ board.innerHTML=''; const remSet=new Set(remaining); for(let i=0;i<26;i++){ const ch=String.fromCharCode(65+i); const cell=document.createElement('div'); cell.className='board__cell board__cell--letters'+ (remSet.has(ch)?'':' board__cell--drawn'); cell.textContent=ch; board.appendChild(cell); } }
+function draw(){ if(!remaining.length){ render(); return; } const c=remaining.shift(); drawn.push(c); render(); }
+document.getElementById('drawBtn').addEventListener('click', draw);
+document.getElementById('newBtn').addEventListener('click', newShuffle);
+document.getElementById('saveBtn').addEventListener('click', save);
+document.getElementById('clearBtn').addEventListener('click', clearS);
+document.addEventListener('keydown', e=>{ if(e.key==='Enter') draw(); if(e.key==='q') save(); });
+if(!load()) newShuffle(); else render();
+</script>
+</body>
+</html>
